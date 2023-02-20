@@ -1,0 +1,10 @@
+{% if contents_list %}
+    <p>These are the last five contents uploaded:</p>
+    <ul>
+    {% for content in contents_list %}
+        <li><a href="/contents/{{ content.id }}/">{{ content.name }} ({{ content.created_at }})</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No contents are available.</p>
+{% endif %}
