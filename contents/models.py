@@ -1,10 +1,23 @@
 from django.db import models
 from django.conf import settings
+from django.utils.translation import gettext_lazy as _
 
 UserModel = settings.AUTH_USER_MODEL
 
 
-class BaseContent(models.Model):
+class ContentType:
+
+    VIDEO = "video"
+    DOCUMENT = "document"
+    IMAGE = "image"
+
+    CHOICES = [
+        (VIDEO, _("Video")),
+        (DOCUMENT, _("Document")),
+        (IMAGE, _("Image")),
+    ]
+
+class Content(models.Model):
     """A base model class for all related content."""
 
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, help_text="Seller user that published this content")
@@ -12,20 +25,14 @@ class BaseContent(models.Model):
     description = models.TextField("Content description", max_length=256, blank=True)
     is_free = models.BooleanField(default=True)
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    # type
+    content_type = models.CharField(choices=ContentType.CHOICES, default=ContentType.VIDEO, max_length=12, blank=False)
+
     def __str__(self) -> str:
-        return self.name
-
-
-class Image(BaseContent):
-    pass
-
-
-class Video(BaseContent):
-    pass
-
-
-class Document(BaseContent):
-    pass
+        return f"{self.name} ({self.content_type})"
 
 
 class Kit(models.Model):
@@ -45,20 +52,10 @@ class KitContent(models.Model):
     """An intermediate table that relates kits and contents"""
 
     kit = models.ForeignKey(Kit, on_delete=models.CASCADE)
-    image_content = models.ForeignKey(Image, null=True, on_delete=models.CASCADE, blank=True)
-    video_content = models.ForeignKey(Video, null=True, on_delete=models.CASCADE, blank=True)
-    document_content = models.ForeignKey(Document, null=True, on_delete=models.CASCADE, blank=True)
+    content = models.ForeignKey(Content, on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
-        return f"{self.kit}: {self._get_content()} from '{self.kit.user}'"
-
-    def _get_content(self):
-        if self.image_content:
-            return self.image_content
-        elif self.video_content:
-            return self.video_content
-        elif self.document_content:
-            return self.document_content
+        return f"{self.kit}: {self.content} from '{self.kit.user}'"
