@@ -30,4 +30,4 @@ class User(AbstractUser):
     is_seller = models.BooleanField(default=False, db_index=True, help_text="Whether this user publish content in the site")
 
     def __str__(self) -> str:
-        return f"{self.get_username()}: {self.get_full_name()}"
+        return self.get_username()
