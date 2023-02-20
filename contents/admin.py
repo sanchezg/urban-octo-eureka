@@ -7,5 +7,20 @@ class ContentAdmin(admin.ModelAdmin):
     list_display = ("name", "user", "is_free",)
     list_filter = ("user", "is_free")
 
-admin.site.register(Kit)
+
+class KitContentAdmin(admin.TabularInline):
+    model = KitContent
+
+
+@admin.register(Kit)
+class KitAdmin(admin.ModelAdmin):
+    list_display = ("user", "name", "created_at", "items_count",)
+
+    inlines = (KitContentAdmin,)
+
+    @admin.display(description="Items")
+    def items_count(self, obj):
+        return obj.contents.count()
+
+
 admin.site.register(KitContent)

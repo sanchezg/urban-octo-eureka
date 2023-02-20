@@ -51,8 +51,8 @@ class Kit(models.Model):
 class KitContent(models.Model):
     """An intermediate table that relates kits and contents"""
 
-    kit = models.ForeignKey(Kit, on_delete=models.CASCADE)
-    content = models.ForeignKey(Content, on_delete=models.CASCADE)
+    kit = models.ForeignKey(Kit, on_delete=models.CASCADE, related_name="contents")
+    content = models.ForeignKey(Content, on_delete=models.CASCADE, related_name="kits_included")
 
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
