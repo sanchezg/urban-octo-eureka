@@ -9,7 +9,8 @@ RUN apt-get update \
 
 RUN apt-get update \
     && apt-get install -y python3.10 python3-distutils \
-        python3-pip python3-apt python3-dev libpq-dev git
+        python3-pip python3-apt python3-dev libpq-dev git \
+        python3-psycopg2
 
 RUN mkdir -p /src
 

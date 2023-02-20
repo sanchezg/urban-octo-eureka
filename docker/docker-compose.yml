@@ -15,7 +15,7 @@ services:
     build:
       context: ../
       dockerfile: docker/Dockerfile
-    # command: /bin/sh -c "docker/build.sh"
+    command: /bin/sh -c "docker/build.sh"
     volumes:
       - ../:/src
     ports:
