@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 UserModel = settings.AUTH_USER_MODEL
@@ -17,6 +18,7 @@ class ContentType:
         (IMAGE, _("Image")),
     ]
 
+
 class Content(models.Model):
     """A base model class for all related content."""
 
@@ -33,6 +35,11 @@ class Content(models.Model):
 
     def __str__(self) -> str:
         return f"{self.name} ({self.content_type})"
+
+    def save(self, **kwargs) -> None:
+        if not self.user.is_seller:
+            raise ValidationError(_("Only consumer users can't create content. Please switch to a publisher account."))
+        return super().save(**kwargs)
 
 
 class Kit(models.Model):
