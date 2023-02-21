@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:12.8
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=eureka_core
+      - POSTGRES_USER=uoe
+      - POSTGRES_PASSWORD=uoe1234
+
+  eureka:
+    platform: linux/x86_64  # https://github.com/GrahamDumpleton/wrapt/issues/199#issuecomment-1054696160
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    command: /bin/sh -c "docker/build.sh"
+    volumes:
+      - ../:/src
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRES_NAME=eureka_core
+      - POSTGRES_USER=uoe
+      - POSTGRES_PASSWORD=uoe1234
+    depends_on:
+      - db

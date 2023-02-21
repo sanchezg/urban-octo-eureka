@@ -1,0 +1,17 @@
+from django.shortcuts import render, get_object_or_404
+
+from .models import Content
+
+
+def index(request):
+    contents = Content.objects.order_by("-created_at")[:5]
+    context = {
+        "contents_list": contents,
+    }
+    # output = f"These are the latest 5 contents: {[x.name for x in contents]}"
+    return render(request, "contents/index.html", context)
+
+
+def detail(request, content_id):
+    content = get_object_or_404(Content, pk=content_id)
+    return render(request, "contents/details.html", {"content": content})
