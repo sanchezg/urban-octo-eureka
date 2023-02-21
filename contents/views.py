@@ -1,5 +1,4 @@
-from django.http import Http404
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from .models import Content
 
@@ -14,8 +13,5 @@ def index(request):
 
 
 def detail(request, content_id):
-    try:
-        content = Content.objects.get(pk=content_id)
-    except Content.DoesNotExist:
-        raise Http404("Specified content does not exist")
+    content = get_object_or_404(Content, pk=content_id)
     return render(request, "contents/details.html", {"content": content})
