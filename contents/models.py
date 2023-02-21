@@ -66,3 +66,28 @@ class KitContent(models.Model):
 
     def __str__(self) -> str:
         return f"{self.kit}: {self.content} from '{self.kit.user}'"
+
+
+class ContentTagColor:
+    GREY = "grey"
+    RED = "red"
+    BLUE = "blue"
+    YELLOW = "yellow"
+    GREEN = "green"
+
+    CHOICES = [
+        (GREY, _("Grey")),
+        (RED, _("Red")),
+        (BLUE, _("Blue")),
+        (YELLOW, _("Yellow")),
+        (GREEN, _("Green")),
+    ]
+
+
+class ContentTag(models.Model):
+    name = models.CharField(max_length=32, blank=False, unique=True)
+    color = models.CharField(max_length=32, choices=ContentTagColor.CHOICES, default=ContentTagColor.GREY)
+    contents = models.ManyToManyField(Content, related_name="tags", blank=True)
+
+    def __str__(self) -> str:
+        return f"{self.name} ({self.color})"
