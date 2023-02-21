@@ -5,7 +5,7 @@ from .serializers import ContentSerializer, KitSerializer, KitContentSerializer
 
 
 class ContentViewSet(viewsets.ModelViewSet):
-    queryset = Content.objects.all()
+    queryset = Content.objects.filter(user__is_test_user=False).order_by("-created_at")
     serializer_class = ContentSerializer
     permission_classes = [permissions.IsAuthenticated]
 

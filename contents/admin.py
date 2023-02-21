@@ -1,11 +1,16 @@
 from django.contrib import admin
-from .models import Content, KitContent, Kit
+from .models import Content, KitContent, Kit, ContentTag
 
+
+class ContentTagInline(admin.TabularInline):
+    model = ContentTag.contents.through
 
 @admin.register(Content)
 class ContentAdmin(admin.ModelAdmin):
     list_display = ("name", "user", "is_free",)
     list_filter = ("user", "is_free")
+
+    inlines = (ContentTagInline,)
 
 
 class KitContentAdmin(admin.TabularInline):
@@ -24,3 +29,4 @@ class KitAdmin(admin.ModelAdmin):
 
 
 admin.site.register(KitContent)
+admin.site.register(ContentTag)
