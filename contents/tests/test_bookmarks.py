@@ -1,35 +1,21 @@
 from django.urls import reverse
 from rest_framework.test import APITestCase
 
-from contents.models import Content, Bookmark
-from users.models import User
+from contents.models import Bookmark
+from users.factories import UserFactory, SellerUserFactory
+from contents.factories import BookmarkFactory, ContentFactory
 
 
 class BookmarkViewSetTestCase(APITestCase):
     BASE_URL = reverse("bookmark-list")
 
     def test_bookmarks_list_returns_user_bookmarks(self):
-        user1 = User(
-            username="username1",
-            first_name="First",
-            last_name="Last",
-            password="password1234",
-            is_seller=True,
-        )
-        user1.save()
-        user2 = User(
-            username="username2",
-            first_name="First",
-            last_name="Last",
-            password="password1234",
-        )
-        user2.save()
+        user1 = SellerUserFactory()
+        user2 = UserFactory()
 
-        content1 = Content(name="C1", description=".", user=user1)
-        content1.save()
-        
-        Bookmark.objects.create(user=user1, content=content1)
-        Bookmark.objects.create(user=user2, content=content1)
+        content1 = ContentFactory(user=user1)
+        BookmarkFactory(user=user1, content=content1)
+        BookmarkFactory(user=user2, content=content1)
 
         self.client.force_authenticate(user=user1)
         response = self.client.get(self.BASE_URL, format="json")
@@ -41,24 +27,9 @@ class BookmarkViewSetTestCase(APITestCase):
         self.assertEqual(data["results"][0]["user"], user1.pk)
 
     def test_user_can_bookmark_a_content(self):
-        user1 = User(
-            username="username1",
-            first_name="First",
-            last_name="Last",
-            password="password1234",
-            is_seller=True,
-        )
-        user1.save()
-        user2 = User(
-            username="username2",
-            first_name="First",
-            last_name="Last",
-            password="password1234",
-        )
-        user2.save()
+        user1 = UserFactory()
 
-        content1 = Content(name="C1", description=".", user=user1)
-        content1.save()
+        content1 = ContentFactory()
 
         self.client.force_authenticate(user=user1)
         post_data = {

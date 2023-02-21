@@ -2,3 +2,4 @@
 
 ipdb==0.13.11
 ipython==8.10.0
+factory-boy==3.2.1
