@@ -91,3 +91,19 @@ class ContentTag(models.Model):
 
     def __str__(self) -> str:
         return f"{self.name} ({self.color})"
+
+
+class Bookmark(models.Model):
+    content = models.ForeignKey(Content, related_name="bookmarks", on_delete=models.CASCADE)
+    user = models.ForeignKey(UserModel, related_name="bookmarks", on_delete=models.CASCADE)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = [
+            ["content", "user"],
+        ]
+
+    def __str__(self) -> str:
+        return f"Bookmark: '{self.content}' from '{self.user}'"

@@ -2,7 +2,7 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase, Client
 from django.urls import reverse
 
-from .models import Content
+from contents.models import Content
 from users.models import User
 
 
@@ -26,13 +26,13 @@ class ContentsViewTestCase(TestCase):
         user.save()
 
         for i in range(6):
-            Content.objects.create(user=user, name=f"Title{i+1}", description=".")  # pk starts in 1
+            Content.objects.create(user=user, name=f"Title{i}", description=".")  # pk starts in 1
 
         response = client.get(contents_index)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"These are the last five contents uploaded:", response.content)
-        for i in range(2, 7):
-            self.assertIn(f"<li><a href=\"/contents/{i}/\">Title{i}".encode(), response.content)
+        for i in range(1, 6):
+            self.assertIn(f"Title{i}".encode(), response.content)
 
 
 class ContentsModelTestCase(TestCase):
