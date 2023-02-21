@@ -28,6 +28,8 @@ class User(AbstractUser):
 
     # Site specific information
     is_seller = models.BooleanField(default=False, db_index=True, help_text="Whether this user publish content in the site")
+    is_test_user = models.BooleanField(default=False, help_text="Whether this user is used for test")
+    modified_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return self.get_username()

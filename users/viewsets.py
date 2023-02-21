@@ -5,6 +5,6 @@ from .serializers import UserSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.filter(is_active=True)  # TODO: add an "is_test" to user model
+    queryset = User.objects.filter(is_active=True, is_test_user=False)
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
