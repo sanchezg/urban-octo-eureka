@@ -1,7 +1,7 @@
 from rest_framework import permissions, viewsets
 
-from .models import Content, Kit, KitContent
-from .serializers import ContentSerializer, KitSerializer, KitContentSerializer
+from .models import Content, Kit, KitContent, Bookmark
+from .serializers import ContentSerializer, KitSerializer, KitContentSerializer, BookmarkSerializer
 
 
 class ContentViewSet(viewsets.ModelViewSet):
@@ -20,3 +20,11 @@ class KitContentViewSet(viewsets.ModelViewSet):
     queryset = KitContent.objects.all()
     serializer_class = KitContentSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+
+class BookmarkViewSet(viewsets.ModelViewSet):
+    serializer_class = BookmarkSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Bookmark.objects.filter(user=self.request.user).order_by("-created_at")

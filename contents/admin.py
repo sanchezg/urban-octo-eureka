@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Content, KitContent, Kit, ContentTag
+from .models import Content, KitContent, Kit, ContentTag, Bookmark
 
 
 class ContentTagInline(admin.TabularInline):
@@ -26,6 +26,12 @@ class KitAdmin(admin.ModelAdmin):
     @admin.display(description="Items")
     def items_count(self, obj):
         return obj.contents.count()
+
+
+@admin.register(Bookmark)
+class BookmarkAdmin(admin.ModelAdmin):
+    list_display = ("user", "content",)
+    list_filter = ("user", "content",)
 
 
 admin.site.register(KitContent)
