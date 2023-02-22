@@ -12,11 +12,11 @@ class ContentReviewViewSetTestCase(TestCase):
     def setUp(self) -> None:
         self.client = APIClient()
         self.user = UserFactory()
-        self.client.force_authenticate(user=self.user)
         self.content = ContentFactory()
         return super().setUp()
 
     def test_user_can_review_content(self):
+        self.client.force_authenticate(user=self.user)
         request_data = {
             "user": self.user.pk,
             "content": self.content.pk,
@@ -34,7 +34,20 @@ class ContentReviewViewSetTestCase(TestCase):
         self.assertEqual(data["score"], 5)
 
     def test_publisher_cant_review_own_content(self):
-        pass
+        user = self.content.user
+        self.client.force_authenticate(user=user)
+
+        request_data = {
+            "user": user.pk,
+            "content": self.content.pk,
+            "review": "great content!",
+            "score": 5,
+        }
+
+        response = self.client.post(self.BASE_URL, data=request_data, format="json")
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()[0], "You can't review your own content")
 
 
 class ContentReviewTestCase(TestCase):
