@@ -1,6 +1,7 @@
+from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
-from .models import Content, Kit, KitContent, Bookmark
+from .models import Content, Kit, KitContent, Bookmark, ContentReview
 
 
 class ContentSerializer(serializers.ModelSerializer):
@@ -29,3 +30,16 @@ class BookmarkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bookmark
         fields = "__all__"
+
+
+class ContentReviewSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ContentReview
+        fields = "__all__"
+
+    def create(self, validated_data):
+        if validated_data["user"] and validated_data["content"]:
+            if validated_data["content"].user.pk == validated_data["user"].pk:
+                raise serializers.ValidationError(_("You can't review your own content"))
+        return super().create(validated_data)

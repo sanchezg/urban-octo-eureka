@@ -1,3 +1,5 @@
+import statistics
+
 from django.db import models
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -40,6 +42,10 @@ class Content(models.Model):
         if not self.user.is_seller:
             raise ValidationError(_("Only consumer users can't create content. Please switch to a publisher account."))
         return super().save(**kwargs)
+
+    @property
+    def score(self):
+        return statistics.mean(list(self.reviews.values_list("score", flat=True)))
 
 
 class Kit(models.Model):
@@ -107,3 +113,21 @@ class Bookmark(models.Model):
 
     def __str__(self) -> str:
         return f"Bookmark: '{self.content}' from '{self.user}'"
+
+
+class ContentReview(models.Model):
+
+    SCORE_CHOICES = [(x, x) for x in range(1,6)]
+
+    content = models.ForeignKey(Content, related_name="reviews", on_delete=models.CASCADE, db_index=True)
+    user = models.ForeignKey(UserModel, related_name="reviewed_contents", on_delete=models.CASCADE, db_index=True)
+    score = models.SmallIntegerField(default=5, null=False, choices=SCORE_CHOICES)
+    review = models.TextField(max_length=256, null=False, default="", blank=True)
+
+    class Meta:
+        unique_together = [
+            ["content", "user"],
+        ]
+
+    def __str__(self) -> str:
+        return f"{self.content}: {self.score} stars"
