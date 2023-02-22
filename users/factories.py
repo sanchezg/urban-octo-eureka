@@ -16,6 +16,7 @@ class UserFactory(DjangoModelFactory):
     username = factory.Sequence(lambda n: f"fakeuser_{n}")
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
+    password = factory.PostGenerationMethodCall("set_password", "p4s$w0rD@99")
 
 
 class SellerUserFactory(UserFactory):
