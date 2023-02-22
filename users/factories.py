@@ -12,10 +12,10 @@ class UserFactory(DjangoModelFactory):
             "email",
         )
 
-    username = factory.Sequence(lambda n: f"fakeusername{n}")
-    email = factory.Sequence(lambda n: f"fakeemail{n}@email.com")
-    first_name = "John"
-    last_name = "Rambo"
+    email = factory.Faker("email")
+    username = factory.Sequence(lambda n: f"fakeuser_{n}")
+    first_name = factory.Faker("first_name")
+    last_name = factory.Faker("last_name")
 
 
 class SellerUserFactory(UserFactory):
