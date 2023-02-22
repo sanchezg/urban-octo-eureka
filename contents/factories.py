@@ -1,7 +1,7 @@
 import factory
 from factory.django import DjangoModelFactory
 
-from .models import Content, Kit, KitContent, ContentTag, Bookmark, ContentType, ContentTagColor
+from .models import Content, Kit, KitContent, ContentTag, Bookmark, ContentType, ContentTagColor, ContentReview
 from users.factories import UserFactory, SellerUserFactory
 
 
@@ -47,3 +47,13 @@ class BookmarkFactory(DjangoModelFactory):
 
     content = factory.SubFactory(ContentFactory)
     user = factory.SubFactory(UserFactory)
+
+
+class ContentReviewFactory(DjangoModelFactory):
+    class Meta:
+        model = ContentReview
+
+    user = factory.SubFactory(UserFactory)
+    content = factory.SubFactory(ContentFactory)
+    score = factory.Faker("random_element", elements=[1, 2, 3, 4, 5])
+    review = factory.Faker("text", max_nb_chars=256)

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Content, Kit, KitContent, Bookmark
+from .models import Content, Kit, KitContent, Bookmark, ContentReview
 
 
 class ContentSerializer(serializers.ModelSerializer):
@@ -28,4 +28,11 @@ class BookmarkSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Bookmark
+        fields = "__all__"
+
+
+class ContentReviewSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ContentReview
         fields = "__all__"
