@@ -6,17 +6,30 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('contents', '0002_alter_kitcontent_content_alter_kitcontent_kit'),
+        ("contents", "0002_alter_kitcontent_content_alter_kitcontent_kit"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='ContentTag',
+            name="ContentTag",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=32, unique=True)),
-                ('color', models.CharField(choices=[('grey', 'Grey'), ('red', 'Red'), ('blue', 'Blue'), ('yellow', 'Yellow'), ('green', 'Gree')], default='grey', max_length=32)),
-                ('contents', models.ManyToManyField(related_name='tags', to='contents.content')),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("name", models.CharField(max_length=32, unique=True)),
+                (
+                    "color",
+                    models.CharField(
+                        choices=[
+                            ("grey", "Grey"),
+                            ("red", "Red"),
+                            ("blue", "Blue"),
+                            ("yellow", "Yellow"),
+                            ("green", "Gree"),
+                        ],
+                        default="grey",
+                        max_length=32,
+                    ),
+                ),
+                ("contents", models.ManyToManyField(related_name="tags", to="contents.content")),
             ],
         ),
     ]

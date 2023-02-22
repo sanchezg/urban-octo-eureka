@@ -1,9 +1,14 @@
-from django.urls import path, include
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import index, detail
-from .viewsets import ContentViewSet, KitContentViewSet, KitViewSet, BookmarkViewSet, ContentReviewViewSet
-
+from .views import detail, index
+from .viewsets import (
+    BookmarkViewSet,
+    ContentReviewViewSet,
+    ContentViewSet,
+    KitContentViewSet,
+    KitViewSet,
+)
 
 app_name = "contents"
 

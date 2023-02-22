@@ -7,7 +7,10 @@ from .models import User
 class UserFactory(DjangoModelFactory):
     class Meta:
         model = User
-        django_get_or_create = ("username", "email",)
+        django_get_or_create = (
+            "username",
+            "email",
+        )
 
     username = factory.Sequence(lambda n: f"fakeusername{n}")
     email = factory.Sequence(lambda n: f"fakeemail{n}@email.com")

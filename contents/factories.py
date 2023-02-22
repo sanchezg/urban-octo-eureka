@@ -1,8 +1,18 @@
 import factory
 from factory.django import DjangoModelFactory
 
-from .models import Content, Kit, KitContent, ContentTag, Bookmark, ContentType, ContentTagColor, ContentReview
-from users.factories import UserFactory, SellerUserFactory
+from users.factories import SellerUserFactory, UserFactory
+
+from .models import (
+    Bookmark,
+    Content,
+    ContentReview,
+    ContentTag,
+    ContentTagColor,
+    ContentType,
+    Kit,
+    KitContent,
+)
 
 
 class ContentFactory(DjangoModelFactory):

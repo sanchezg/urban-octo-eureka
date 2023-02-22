@@ -1,7 +1,13 @@
 from rest_framework import permissions, viewsets
 
-from .models import Content, Kit, KitContent, Bookmark, ContentReview
-from .serializers import ContentSerializer, KitSerializer, KitContentSerializer, BookmarkSerializer, ContentReviewSerializer
+from .models import Bookmark, Content, ContentReview, Kit, KitContent
+from .serializers import (
+    BookmarkSerializer,
+    ContentReviewSerializer,
+    ContentSerializer,
+    KitContentSerializer,
+    KitSerializer,
+)
 
 
 class ContentViewSet(viewsets.ModelViewSet):

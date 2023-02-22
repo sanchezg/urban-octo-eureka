@@ -1,5 +1,5 @@
-from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
@@ -27,7 +27,9 @@ class User(AbstractUser):
     # TODO: birthday, country, preferred_lang
 
     # Site specific information
-    is_seller = models.BooleanField(default=False, db_index=True, help_text="Whether this user publish content in the site")
+    is_seller = models.BooleanField(
+        default=False, db_index=True, help_text="Whether this user publish content in the site"
+    )
     is_test_user = models.BooleanField(default=False, help_text="Whether this user is used for test")
     modified_at = models.DateTimeField(auto_now=True)
 

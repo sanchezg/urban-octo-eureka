@@ -10,7 +10,6 @@ from users.models import User
 
 
 class ContentsViewTestCase(TestCase):
-
     def setUp(self) -> None:
         self.client = APIClient()
         return super().setUp()
@@ -32,10 +31,11 @@ class ContentsViewTestCase(TestCase):
 
 
 class ContentsModelTestCase(TestCase):
-
     def test_user_consumer_cant_create_content(self):
 
         user = UserFactory()
         with self.assertRaises(ValidationError) as exc:
             Content.objects.create(user=user, name=f"Title", description=".")
-        self.assertIn("Only consumer users can't create content. Please switch to a publisher account.", exc.exception.message)
+        self.assertIn(
+            "Only consumer users can't create content. Please switch to a publisher account.", exc.exception.message
+        )

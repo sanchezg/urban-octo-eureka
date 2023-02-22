@@ -1,9 +1,9 @@
 from django.urls import reverse
 from rest_framework.test import APITestCase
 
-from contents.models import Bookmark
-from users.factories import UserFactory, SellerUserFactory
 from contents.factories import BookmarkFactory, ContentFactory
+from contents.models import Bookmark
+from users.factories import SellerUserFactory, UserFactory
 
 
 class BookmarkViewSetTestCase(APITestCase):
@@ -32,10 +32,7 @@ class BookmarkViewSetTestCase(APITestCase):
         content1 = ContentFactory()
 
         self.client.force_authenticate(user=user1)
-        post_data = {
-            "user": user1.pk,
-            "content": content1.pk
-        }
+        post_data = {"user": user1.pk, "content": content1.pk}
         response = self.client.post(self.BASE_URL, data=post_data, format="json")
         self.assertEqual(response.status_code, 201)
 

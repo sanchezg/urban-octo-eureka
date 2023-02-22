@@ -6,18 +6,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('contents', '0003_contenttag'),
+        ("contents", "0003_contenttag"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='contenttag',
-            name='color',
-            field=models.CharField(choices=[('grey', 'Grey'), ('red', 'Red'), ('blue', 'Blue'), ('yellow', 'Yellow'), ('green', 'Green')], default='grey', max_length=32),
+            model_name="contenttag",
+            name="color",
+            field=models.CharField(
+                choices=[("grey", "Grey"), ("red", "Red"), ("blue", "Blue"), ("yellow", "Yellow"), ("green", "Green")],
+                default="grey",
+                max_length=32,
+            ),
         ),
         migrations.AlterField(
-            model_name='contenttag',
-            name='contents',
-            field=models.ManyToManyField(blank=True, related_name='tags', to='contents.content'),
+            model_name="contenttag",
+            name="contents",
+            field=models.ManyToManyField(blank=True, related_name="tags", to="contents.content"),
         ),
     ]

@@ -5,6 +5,7 @@ from rest_framework.test import APIClient
 from contents.factories import ContentFactory, ContentReviewFactory
 from users.factories import UserFactory
 
+
 class ContentReviewViewSetTestCase(TestCase):
 
     BASE_URL = reverse("review-list")
@@ -51,13 +52,12 @@ class ContentReviewViewSetTestCase(TestCase):
 
 
 class ContentReviewTestCase(TestCase):
-
     def test_avg_score_computes_right_score(self):
         content = ContentFactory()
 
         acc = 0
         for i in range(10):
-            score = i+1
+            score = i + 1
             ContentReviewFactory(content=content, score=score)
             acc += score
         avg = acc / 10

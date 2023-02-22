@@ -1,13 +1,19 @@
 from django.contrib import admin
-from .models import Content, KitContent, Kit, ContentTag, Bookmark
+
+from .models import Bookmark, Content, ContentTag, Kit, KitContent
 
 
 class ContentTagInline(admin.TabularInline):
     model = ContentTag.contents.through
 
+
 @admin.register(Content)
 class ContentAdmin(admin.ModelAdmin):
-    list_display = ("name", "user", "is_free",)
+    list_display = (
+        "name",
+        "user",
+        "is_free",
+    )
     list_filter = ("user", "is_free")
 
     inlines = (ContentTagInline,)
@@ -19,7 +25,12 @@ class KitContentAdmin(admin.TabularInline):
 
 @admin.register(Kit)
 class KitAdmin(admin.ModelAdmin):
-    list_display = ("user", "name", "created_at", "items_count",)
+    list_display = (
+        "user",
+        "name",
+        "created_at",
+        "items_count",
+    )
 
     inlines = (KitContentAdmin,)
 
@@ -30,8 +41,14 @@ class KitAdmin(admin.ModelAdmin):
 
 @admin.register(Bookmark)
 class BookmarkAdmin(admin.ModelAdmin):
-    list_display = ("user", "content",)
-    list_filter = ("user", "content",)
+    list_display = (
+        "user",
+        "content",
+    )
+    list_filter = (
+        "user",
+        "content",
+    )
 
 
 admin.site.register(KitContent)

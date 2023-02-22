@@ -1,8 +1,8 @@
 import statistics
 
-from django.db import models
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 UserModel = settings.AUTH_USER_MODEL
@@ -50,7 +50,10 @@ class Content(models.Model):
 
 class Kit(models.Model):
     """A kit made from one or more contents"""
-    user = models.ForeignKey(UserModel, db_index=True, on_delete=models.CASCADE, help_text="Seller user that published this kit")
+
+    user = models.ForeignKey(
+        UserModel, db_index=True, on_delete=models.CASCADE, help_text="Seller user that published this kit"
+    )
     name = models.CharField("Kit title", max_length=32, blank=False)
     description = models.TextField("Kit description", max_length=256, blank=True)
 
@@ -117,7 +120,7 @@ class Bookmark(models.Model):
 
 class ContentReview(models.Model):
 
-    SCORE_CHOICES = [(x, x) for x in range(1,6)]
+    SCORE_CHOICES = [(x, x) for x in range(1, 6)]
 
     content = models.ForeignKey(Content, related_name="reviews", on_delete=models.CASCADE, db_index=True)
     user = models.ForeignKey(UserModel, related_name="reviewed_contents", on_delete=models.CASCADE, db_index=True)
