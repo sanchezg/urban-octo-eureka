@@ -21,7 +21,6 @@ class ContentsViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"No contents are available.", response.content)
 
-        # user = UserFactory()
         contents = ContentFactory.create_batch(6)
 
         response = self.client.get(contents_index)

@@ -8,7 +8,6 @@ def index(request):
     context = {
         "contents_list": contents,
     }
-    # output = f"These are the latest 5 contents: {[x.name for x in contents]}"
     return render(request, "contents/index.html", context)
 
 
