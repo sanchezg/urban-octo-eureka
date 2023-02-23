@@ -5,3 +5,4 @@ psycopg2==2.9.2
 psycopg2-binary==2.9.5
 tzdata==2022.7
 django-extensions==3.2.1
+django-rest-knox==4.2.0
