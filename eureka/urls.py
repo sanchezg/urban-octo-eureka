@@ -26,7 +26,7 @@ router.registry.extend(users_router.registry)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api-auth/", include("rest_framework.urls")),
+    path("api/auth/", include("eureka.api.urls")),
     # App views
     path("contents/", include("contents.urls")),
     # API urls

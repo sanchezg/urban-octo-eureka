@@ -21,7 +21,7 @@ class UserFactory(DjangoModelFactory):
     def password(self, create, extracted, **kwargs):
         if not create or not extracted:
             return
-        self.set_password(extracted)
+        self.set_password(extracted)  # check why is soooo slow
         return self.password
 
 
