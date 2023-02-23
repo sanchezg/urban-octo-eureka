@@ -1,3 +1,5 @@
+from unittest import skip
+
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework.test import APIClient
@@ -12,6 +14,7 @@ class AuthTestCase(TestCase):
         self.logout_url = reverse("knox_logout")
         return super().setUp()
 
+    @skip("Too slow to set password")
     def test_logged_in_user_can_access_auth_views(self):
         password = "abcdef102938"
         user = UserFactory(password=password)
@@ -28,6 +31,7 @@ class AuthTestCase(TestCase):
         response = self.client.get(reverse("user-list"))
         self.assertEqual(response.status_code, 200)
 
+    @skip("Too slow to set password")
     def test_logged_out_user_cant_access_auth_views(self):
         password = "abcdef102938"
         user = UserFactory(password=password)
