@@ -41,3 +41,14 @@ class UserViewSetTestCase(TestCase):
         data = response.json()["results"]
         self.assertEqual(len(data), 1)
         self.assertEqual(data[0]["username"], non_test_user.username)
+
+    def test_set_is_seller(self):
+        user = UserFactory()
+        self.client.force_authenticate(user=user)
+        url = reverse("user-set-as-seller", kwargs={"pk": user.pk})
+
+        response = self.client.post(url, format="json")
+        self.assertEqual(response.status_code, 200)
+
+        user.refresh_from_db()
+        self.assertTrue(user.is_seller)
