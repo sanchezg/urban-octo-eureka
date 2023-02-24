@@ -4,6 +4,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from .models import User
+from .permissions import IsAdminOrIsSelf
 from .serializers import UserSerializer
 
 
@@ -12,7 +13,7 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    @action(detail=True, methods=["post"])
+    @action(detail=True, methods=["post"], permission_classes=[IsAdminOrIsSelf])
     def set_as_seller(self, request, pk=None):  # TODO: Add permission to filter this view
         """
         Use this view for additional actions like sending an email or notification

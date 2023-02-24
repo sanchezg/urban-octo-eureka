@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
+from rest_framework import status
 from rest_framework.test import APIClient
 
 from .factories import UserFactory
@@ -21,7 +22,7 @@ class UserViewSetTestCase(TestCase):
         self.client.force_authenticate(user=active_user)
         response = self.client.get(self.BASE_URL, format="json")
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         data = response.json()["results"]
         self.assertEqual(len(data), 1)
@@ -36,7 +37,7 @@ class UserViewSetTestCase(TestCase):
         self.client.force_authenticate(user=non_test_user)
         response = self.client.get(self.BASE_URL, format="json")
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         data = response.json()["results"]
         self.assertEqual(len(data), 1)
@@ -48,7 +49,16 @@ class UserViewSetTestCase(TestCase):
         url = reverse("user-set-as-seller", kwargs={"pk": user.pk})
 
         response = self.client.post(url, format="json")
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         user.refresh_from_db()
         self.assertTrue(user.is_seller)
+
+    def test_is_seller_cant_be_set_by_other_user(self):
+        user1 = UserFactory()
+        user2 = UserFactory()
+        self.client.force_authenticate(user=user1)
+        url = reverse("user-set-as-seller", kwargs={"pk": user2.pk})
+
+        response = self.client.post(url, format="json")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
