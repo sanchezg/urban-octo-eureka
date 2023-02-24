@@ -35,3 +35,7 @@ class User(AbstractUser):
 
     def __str__(self) -> str:
         return self.get_username()
+
+    def set_is_seller(self) -> None:
+        self.is_seller = True
+        self.save()
