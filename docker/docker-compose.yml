@@ -21,7 +21,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - POSTGRES_NAME=eureka_core
+      - POSTGRES_DB=eureka_core
       - POSTGRES_USER=uoe
       - POSTGRES_PASSWORD=uoe1234
       - POSTGRES_HOST=db
