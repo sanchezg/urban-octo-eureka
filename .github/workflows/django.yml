@@ -41,3 +41,5 @@ jobs:
     - name: Run Tests
       run: |
         python manage.py test
+      env:
+        POSTGRES_HOST: localhost
