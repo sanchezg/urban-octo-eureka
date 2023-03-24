@@ -24,5 +24,6 @@ services:
       - POSTGRES_NAME=eureka_core
       - POSTGRES_USER=uoe
       - POSTGRES_PASSWORD=uoe1234
+      - POSTGRES_HOST=db
     depends_on:
       - db
